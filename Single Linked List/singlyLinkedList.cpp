@@ -20,20 +20,23 @@ class Node {
 };
 
 class LinkedList {
-    // Declare a Head Node
+    // Declare a Head + Tail Node
     Node* head;
-    
+    Node* tail;
+
     public:
     // Default Constructor
     LinkedList() {
         this->head = nullptr;
+        this->tail = nullptr;
     }
 
     // Insert at Head Funct
     void ListPrepend(int data) {
         Node* newNode = new Node(data);
-        if (head == nullptr) {
+        if (head == nullptr) { // If the list is empty
             head = newNode;
+            tail = newNode;
             return;
         }
 
@@ -46,22 +49,59 @@ class LinkedList {
         Node* newNode = new Node(data);
         if (head == nullptr) { // If list is empty, newNode is head
             head = newNode;
+            tail = newNode;
             return;
         }
-        else {
-            Node* temp = head;
-            while (temp->next != nullptr) { // while the list is not at the end
-                temp = temp->next; // Goes to the end of the list
-            }
-
-            temp->next = newNode;
-            newNode->next = nullptr;
+        else { // else update tail
+            tail->next = newNode;
+            tail = newNode;
         }
     }
 
     //Insert at Specific Position Function
 
-    //Delete Node Function
+    void ListInsertAfter(Node* currNode, Node* newNode) {
+        if(head == nullptr) { // empty List
+            head = newNode;
+            tail = newNode;
+        }
+        else if (currNode = tail) { // insert after tail
+            tail->next = newNode;
+            tail = newNode;
+        }
+        else {
+            newNode->next = currNode->next;
+            currNode->next = newNode;
+        }
+    }
+
+    // Delete Node Function
+
+    void DeleteNodeAfter(Node* currNode) {
+        Node* succNode;
+        if (currNode == nullptr && head != nullptr) {
+            succNode = head->next;
+            head = succNode;
+            
+            if (succNode == nullptr) {
+                tail = nullptr;
+            }
+        }
+
+        else if (currNode->next != nullptr) {
+            succNode = currNode->next->next;
+            currNode->next = succNode;
+
+            if (succNode == nullptr) {
+                tail = currNode;
+            }
+        }
+    } 
+
+    // Print specific Node
+    void displayNode(Node* currNode) {
+        cout << "Node: " << currNode->data << endl;
+    }
 
     //Print List Funct
     void PrintList() {
@@ -85,5 +125,9 @@ int main() {
     L.ListPrepend(1);
     L.ListAppend(4);
 
-    L.PrintList();
-}
+    cout << "Original List: " << endl;
+    L.PrintList(); 
+
+    cout << "After Deleting Node 3" << endl;
+    
+} 
