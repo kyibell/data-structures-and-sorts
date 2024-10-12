@@ -30,6 +30,19 @@ class LinkedList {
         this->head = nullptr;
         this->tail = nullptr;
     }
+    // Find Node Funct.
+    Node* FindNode(int data) {
+        Node* currNode;
+        currNode = head;
+
+        while (currNode != nullptr) {
+            if (currNode->data == data) {
+                return currNode;
+            }
+            currNode = currNode->next;
+        }
+        return nullptr; // if not found return NULL
+    }
 
     // Insert at Head Funct
     void ListPrepend(int data) {
@@ -60,25 +73,40 @@ class LinkedList {
 
     //Insert at Specific Position Function
 
-    void ListInsertAfter(Node* currNode, Node* newNode) {
-        if(head == nullptr) { // empty List
+    void ListInsertAtPosition(int data, int position) {
+        Node* newNode = new Node(data);
+
+        if (position == 1) { // insertion at the head
+            newNode->next = head;
             head = newNode;
-            tail = newNode;
+            return;
         }
-        else if (currNode = tail) { // insert after tail
-            tail->next = newNode;
-            tail = newNode;
+
+        int currPos = 1;
+        Node* temp = head;
+
+        while (temp != nullptr && currPos < position - 1) {
+            temp = temp->next;
+            currPos++;
         }
-        else {
-            newNode->next = currNode->next;
-            currNode->next = newNode;
+
+        if (temp == nullptr) {
+            cout << "Could not insert, position is out of bounds." << endl;
+            delete newNode;
+            return;
         }
+
+        newNode->next = temp->next; // Insert temp at position
+        temp->next = newNode;
+
+
     }
 
     // Delete Node Function
 
-    void DeleteNodeAfter(Node* currNode) {
+    void DeleteNodeAfter(int data) {
         Node* succNode;
+        Node* currNode = FindNode(data);
         if (currNode == nullptr && head != nullptr) {
             succNode = head->next;
             head = succNode;
@@ -98,10 +126,6 @@ class LinkedList {
         }
     } 
 
-    // Print specific Node
-    void displayNode(Node* currNode) {
-        cout << "Node: " << currNode->data << endl;
-    }
 
     //Print List Funct
     void PrintList() {
@@ -129,5 +153,13 @@ int main() {
     L.PrintList(); 
 
     cout << "After Deleting Node 3" << endl;
+    L.DeleteNodeAfter(2);
+    L.PrintList();
+
+    cout << "After inserting Node 5 at position 2" << endl;
+    L.ListInsertAtPosition(5,2);
+    L.PrintList();
+
+    return 0;
     
 } 
