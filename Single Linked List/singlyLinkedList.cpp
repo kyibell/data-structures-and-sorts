@@ -103,7 +103,6 @@ class LinkedList {
     }
 
     // Delete Node Function
-
     void DeleteNodeAfter(int data) {
         Node* succNode;
         Node* currNode = FindNode(data);
@@ -138,7 +137,6 @@ class LinkedList {
         cout << endl;
     }
 };
-
 
 
 int main() {
