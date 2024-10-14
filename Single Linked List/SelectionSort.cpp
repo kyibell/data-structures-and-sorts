@@ -147,31 +147,22 @@ class LinkedList {
 
     // Bubble Sort Funct
     
-    void bubblesort(LinkedList L) {
+    void selectionsort(LinkedList L) {
         if (head == nullptr) { // if the list is empty
             return;
         }
 
         Node* currNode;
-        Node* lastNode = nullptr; // keep a variable of lastNode == null
-        bool swapped;
+        for (currNode = head; currNode != nullptr; currNode = currNode->next) { 
+            Node* minNode = currNode; // Assume currNode is the minNode
 
-        do {
-            swapped = false; // set Swapped to false
-            currNode = head;
-
-            while(currNode->next != lastNode) { // Traverse through the list
-                if (currNode->data > currNode->next->data) { // if currNode data > next data, swap
-                    swap(currNode, currNode->next);
-                    swapped = true; // Set swapped to true
+            for (Node* temp = currNode->next; temp != nullptr; temp = temp->next) {
+                if (temp->data < minNode->data) { // if temp is lower then current minNode, minNode = temp
+                    minNode = temp;
                 }
-                currNode = currNode->next;
             }
-
-            lastNode = currNode;
-
-        } while(swapped);
-        
+            swap(currNode, minNode); // swap the data values of minNode and currNode
+        }
     }
 };
 
@@ -187,7 +178,7 @@ int main() {
     cout << "List before sort: " << endl;
     L.PrintList();
     cout << "List after sort: " << endl;
-    L.bubblesort(L);
+    L.selectionsort(L);
     L.PrintList();
 
     }

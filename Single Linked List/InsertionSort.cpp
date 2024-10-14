@@ -145,33 +145,40 @@ class LinkedList {
         b->data = temp;
     }
 
-    // Bubble Sort Funct
+    // Insertion Sort Funct
     
-    void bubblesort(LinkedList L) {
-        if (head == nullptr) { // if the list is empty
-            return;
+    Node* insertionsort(LinkedList L) {
+        if (head == nullptr || head->next == nullptr) { // if the list is empty
+            return head; // no sorting is needed, so just return head
         }
 
-        Node* currNode;
-        Node* lastNode = nullptr; // keep a variable of lastNode == null
-        bool swapped;
+        Node* sorted = nullptr; // created a pointer to hold the sorted list
+        Node* currNode = head; // start with the head node for the sort
 
-        do {
-            swapped = false; // set Swapped to false
-            currNode = head;
+        while (currNode != nullptr) { // Traverse the list
+            Node* nextNode = currNode->next; // store next node /w currNode next
+            sorted = sortedInsert(sorted,currNode); // call sortedInsert to insert the currNode into sort
+            currNode = nextNode; // move to nextNode
+        }
 
-            while(currNode->next != lastNode) { // Traverse through the list
-                if (currNode->data > currNode->next->data) { // if currNode data > next data, swap
-                    swap(currNode, currNode->next);
-                    swapped = true; // Set swapped to true
-                }
-                currNode = currNode->next; // move currNode
-            }
+        head = sorted; // after sorting, update head
+        return head;  
+    }
 
-            lastNode = currNode; 
+    Node* sortedInsert(Node* sorted, Node* newNode) {
+        if (!sorted || sorted->data >= newNode->data) { // If list is empty or newNode should be head
+            newNode->next = sorted; // Insert newNode into the list
+            return newNode; // newNode is now the head of sorted list
+        }
+        Node* currNode = sorted; // Start from the head of sorted list
+        while (currNode->next != nullptr && currNode->next->data < newNode->data) { // Traverse the second list to find position
+            currNode = currNode->next;
+        }
+        // Insert new Node into the position
+        newNode->next = currNode->next; 
+        currNode->next = newNode;
 
-        } while(swapped);
-        
+        return sorted; // Return the sorted list.
     }
 };
 
@@ -187,8 +194,8 @@ int main() {
     cout << "List before sort: " << endl;
     L.PrintList();
     cout << "List after sort: " << endl;
-    L.bubblesort(L);
+    L.insertionsort(L);
     L.PrintList();
 
-    }
+}
 
