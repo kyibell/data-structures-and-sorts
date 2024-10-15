@@ -97,7 +97,16 @@ class Queue {
     }
 
     void insertionsort() {
-        
+        for (int i = front + 1; i <= rear; i++) {
+            int key = queue[i];
+            int j = i - 1;
+
+            while(j >= front && queue[j ] > key) {
+                queue[j + 1] = queue[j];
+                j--;
+            }
+            queue[j + 1] = key;
+        }
     }
 };
 
@@ -116,7 +125,7 @@ int main() {
     cout << "Back is " << myQueue.back() << endl;
     cout << "Size is: " << myQueue.size() << endl;
     myQueue.display();
-    cout << "Selection Sort: " << endl;
-    myQueue.selectionsort();
+    cout << "Insertion Sort: " << endl;
+    myQueue.insertionsort();
     myQueue.display();
 }

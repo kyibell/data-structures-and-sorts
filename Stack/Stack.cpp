@@ -46,7 +46,7 @@ class Stack {
             return -1;
         }
 
-        return stack[top];
+        return stack[top]; // return the top element
     }
     // size function
     int size() {
@@ -67,19 +67,73 @@ class Stack {
         }
 
     }
+
+    void bubblesort() {
+        int length = size();
+        bool swapped;
+        for (int i = 0; i <= top; i++) {
+            swapped = false;
+
+            for  (int j = 0; j < top - i; j++) {
+                if (stack[j] < stack[j + 1]) {
+                    swap(stack[j], stack[j + 1]);
+                    swapped = true;
+                }
+            }
+            if (!swapped) {
+                break;
+            }
+        }
+    }
+
+    void selectionsort() {
+        int length = size();
+
+        for (int i = 0; i < top; i++) {
+            int minIndex = i;
+
+            for (int j = i + 1; j <= top; j++) {
+                if (stack[j] > stack[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            if (i != minIndex) {
+                swap(stack[i], stack[minIndex]);
+            }
+        }
+    }
+
+    void insertionsort() {
+        for (int i = 1; i <= top; i++) {
+            int key = stack[i];
+            int j = i - 1;
+
+            while (j >= 0 && stack[j] < key) {
+                stack[j + 1] = stack[j];
+                j--;
+            }
+        stack [j + 1] = key;
+        }
+    }
 };
+
+
 
 int main() {
 
     Stack myStack;
-
     myStack.pop();
-    myStack.push(5);
     myStack.push(4);
     myStack.push(3);
+    myStack.push(5);
+    myStack.push(10);
+    // myStack.print();
+    // cout << myStack.peek() << endl;
+    // cout << myStack.size() << endl;
+
     myStack.print();
-    myStack.pop();
-    cout << myStack.peek() << endl;
-    cout << myStack.size() << endl;
+    cout << "After sort: " << endl;
+    myStack.selectionsort();
+    myStack.print();
 
 }
