@@ -10,14 +10,14 @@ class Queue {
     int queue[MAX_CAPACITY];
     int front = -1;
     int rear = -1;
-
+    
     // isEmpty
     bool isEmpty() {
-        return front == rear; // check if the front is undefined
+        return front == -1 || front > rear; // check if the front is undefined
     }
     // isFull
     bool isFull() {
-        return rear == MAX_CAPACITY; // check if rear = max capacity
+        return rear == MAX_CAPACITY - 1; // check if rear = max capacity
     }
 
     // front 
@@ -35,11 +35,11 @@ class Queue {
             cout << "Could not enqueue. Queue is full." << endl;
         }
         else {
-            if (front = -1) {
+            if (front == -1) {
             front = 0;
+            }
             rear++; // increment rear
             queue[rear] = element; // Set the new rear to the element
-            }
         }
     }
     // Dequeue
@@ -54,7 +54,10 @@ class Queue {
     }
     // size
     int size() {
-        return rear + 1;
+        if (isEmpty()) {
+        return 0;
+        }        
+        return rear - front + 1;
     }
 
     void display() {
@@ -62,6 +65,39 @@ class Queue {
             cout << queue[i] << " ";
         }
         cout << endl;
+    }
+
+    void bubblesort() {
+        int length = size();
+        for (int i = 0; i < length - 1; i++) {
+            for (int j = front; j < rear - i; j++) {
+                if(queue[j] > queue[j+1]) {
+                    swap(queue[j], queue[j+1]);
+                }
+            }
+        }
+    }
+
+    void selectionsort() {
+        int length = size(); // set length = size of queue
+
+        for (int i = front; i < rear; i++) {
+            int minIndex = i; // assume minIndex = currIndex
+
+
+            for (int j = i + 1; j < length; j++) {
+                if (queue[j] < queue[minIndex]) { // if j < minIndex
+                    minIndex = j; // minIndex = j
+                }
+            }
+            if (minIndex != i) {
+                swap(queue[i], queue[minIndex]); // swap indexes
+            }
+        }
+    }
+
+    void insertionsort() {
+        
     }
 };
 
@@ -71,13 +107,16 @@ int main() {
     Queue myQueue;
 
     myQueue.dequeue();
+    myQueue.enqueue(4);
+    myQueue.enqueue(6);
+    myQueue.enqueue(3);
     myQueue.enqueue(1);
     myQueue.enqueue(2);
-    myQueue.enqueue(3);
     cout << "Front is " << myQueue.head() << endl;
     cout << "Back is " << myQueue.back() << endl;
     cout << "Size is: " << myQueue.size() << endl;
     myQueue.display();
-    myQueue.dequeue();
+    cout << "Selection Sort: " << endl;
+    myQueue.selectionsort();
     myQueue.display();
 }
